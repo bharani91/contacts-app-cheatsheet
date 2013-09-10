@@ -1,0 +1,315 @@
+<h1 class="wmd-title" id="rapidly-prototyping-web-applications-with-meteor">Rapidly Prototyping Web Applications With Meteor</h1>
+
+<h3 class="wmd-title" id="installation">Installation</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">curl https</span><span class="pun">:</span><span class="com">//install.meteor.com | /bin/sh</span></code></pre>
+
+<h3 class="wmd-title" id="creating-a-new-app">Creating a new app</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">meteor create contacts
+cd contacts
+meteor</span></code></pre>
+
+<h3 class="wmd-title" id="packages">Packages</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">meteor list </span><span class="pun">--</span><span class="kwd">using</span><span class="pln">
+meteor list</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">meteor add bootstrap</span></code></pre>
+
+<h3 class="wmd-title" id="css">CSS</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-css"><span class="pln">body </span><span class="pun">{</span><span class="pln">
+    padding</span><span class="pun">-</span><span class="pln">top</span><span class="pun">:</span><span class="pln"> </span><span class="lit">20px</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="pun">.</span><span class="pln">contact_list </span><span class="pun">&gt;</span><span class="pln"> li </span><span class="pun">{</span><span class="pln">
+    width</span><span class="pun">:</span><span class="pln"> </span><span class="lit">230px</span><span class="pun">;</span><span class="pln">
+    min</span><span class="pun">-</span><span class="pln">height</span><span class="pun">:</span><span class="pln"> </span><span class="lit">250px</span><span class="pun">;</span><span class="pln">
+    </span><span class="kwd">float</span><span class="pun">:</span><span class="pln"> left</span><span class="pun">;</span><span class="pln">
+    margin</span><span class="pun">-</span><span class="pln">right</span><span class="pun">:</span><span class="pln"> </span><span class="lit">20px</span><span class="pun">;</span><span class="pln">
+    margin</span><span class="pun">-</span><span class="pln">bottom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">20px</span><span class="pun">;</span><span class="pln">
+    border</span><span class="pun">-</span><span class="pln">right</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1px</span><span class="pln"> solid </span><span class="com">#eee;</span><span class="pln">
+    border</span><span class="pun">-</span><span class="pln">bottom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1px</span><span class="pln"> solid </span><span class="com">#eee;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="pun">.</span><span class="pln">access_denied </span><span class="pun">{</span><span class="pln">
+    margin</span><span class="pun">:</span><span class="pln"> </span><span class="lit">100px</span><span class="pln"> </span><span class="kwd">auto</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+
+<h3 class="wmd-title" id="header-template">Header Template</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-html"><span class="tag">&lt;body&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"container"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"row-fluid"</span><span class="tag">&gt;</span><span class="pln">
+            {{&gt; header}}
+        </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/body&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-html"><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"header"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"span12"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"well well-small"</span><span class="tag">&gt;</span><span class="pln">
+            </span><span class="tag">&lt;h1&gt;</span><span class="pln">
+                Contacts App
+            </span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<h3 class="wmd-title" id="creating-a-collection">Creating a collection</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-js"><span class="typ">Contacts</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Meteor</span><span class="pun">.</span><span class="typ">Collection</span><span class="pun">(</span><span class="str">"contacts"</span><span class="pun">);</span></code></pre>
+
+<h3 class="wmd-title" id="interacting-with-collections">Interacting with collections</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-js"><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">insert</span><span class="pun">({</span><span class="pln">
+    name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"bharani"</span><span class="pun">,</span><span class="pln">
+    email</span><span class="pun">:</span><span class="pln"> </span><span class="str">"bharani@gmail.com"</span><span class="pun">,</span><span class="pln">
+    phone</span><span class="pun">:</span><span class="pln"> </span><span class="str">"9891836696"</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+</span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">update</span><span class="pun">({</span><span class="pln">
+    _id</span><span class="pun">:</span><span class="pln"> </span><span class="str">"3chG6g9AaKB6zuDXu"</span><span class="pln"> 
+</span><span class="pun">},</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> $set</span><span class="pun">:</span><span class="pln"> 
+</span><span class="pun">{</span><span class="pln">
+    name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Bharani Muthukumaraswamy"</span><span class="pln">
+</span><span class="pun">}});</span><span class="pln">
+
+
+</span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">find</span><span class="pun">();</span><span class="pln">
+</span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">find</span><span class="pun">({</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Bharani Muthukumaraswamy"</span><span class="pun">});</span><span class="pln">
+
+</span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">remove</span><span class="pun">({</span><span class="pln"> _id</span><span class="pun">:</span><span class="pln"> </span><span class="str">"id string.."</span><span class="pln"> </span><span class="pun">});</span></code></pre>
+
+<h3 class="wmd-title" id="new-contact-form">New Contact Form</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-html"><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"row-fluid"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"span4"</span><span class="tag">&gt;</span><span class="pln">
+        {{&gt; add_contact}}
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/div&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-html"><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"add_contact"</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"well"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;form&gt;</span><span class="pln">
+      </span><span class="tag">&lt;label&gt;</span><span class="pln">Name</span><span class="tag">&lt;/label&gt;</span><span class="pln">
+      </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"input-block-level name"</span><span class="tag">&gt;</span><span class="pln">
+
+      </span><span class="tag">&lt;label&gt;</span><span class="pln">Email</span><span class="tag">&lt;/label&gt;</span><span class="pln">
+      </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"input-block-level email"</span><span class="tag">&gt;</span><span class="pln">
+
+      </span><span class="tag">&lt;label&gt;</span><span class="pln">Phone</span><span class="tag">&lt;/label&gt;</span><span class="pln">
+      </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"input-block-level phone"</span><span class="tag">&gt;</span><span class="pln">
+
+      </span><span class="tag">&lt;label&gt;</span><span class="pln">Twitter</span><span class="tag">&lt;/label&gt;</span><span class="pln">
+      </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"input-block-level twitter"</span><span class="tag">&gt;</span><span class="pln">
+
+      </span><span class="tag">&lt;hr&gt;</span><span class="pln">
+
+      </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"submit"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-primary btn-large"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"Add Contact"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/form&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<h3 class="wmd-title" id="contact-list">Contact list</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-html"><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"contact_list"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"span8"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;ul</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"unstyled contact_list"</span><span class="tag">&gt;</span><span class="pln">
+            {{#each contacts}}
+                {{&gt; contact_item }}
+            {{/each}}
+        </span><span class="tag">&lt;/ul&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"contact_item"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;li&gt;</span><span class="pln">
+      </span><span class="tag">&lt;h3&gt;</span><span class="pln">{{name}}</span><span class="tag">&lt;/h3&gt;</span><span class="pln">
+      </span><span class="tag">&lt;ul</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"unstyled"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Email: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ email }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+        </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Phone: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ phone }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+        </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Twitter: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ twitter }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/ul&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/li&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code class="language-js"><span class="kwd">if</span><span class="pun">(</span><span class="pln"> </span><span class="typ">Meteor</span><span class="pun">.</span><span class="pln">isClient </span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Template</span><span class="pun">.</span><span class="pln">contact_list</span><span class="pun">.</span><span class="pln">contacts </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">find</span><span class="pun">();</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+
+<h3 class="wmd-title" id="adding-new-contacts">Adding new contacts</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">  </span><span class="typ">Template</span><span class="pun">.</span><span class="pln">add_contact</span><span class="pun">.</span><span class="pln">events</span><span class="pun">({</span><span class="pln">
+    </span><span class="str">"submit form"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">e</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      e</span><span class="pun">.</span><span class="pln">preventDefault</span><span class="pun">();</span><span class="pln">
+
+      </span><span class="kwd">var</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".name"</span><span class="pun">),</span><span class="pln">
+          email </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".email"</span><span class="pun">),</span><span class="pln">
+          phone </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".phone"</span><span class="pun">),</span><span class="pln">
+          twitter </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".twitter"</span><span class="pun">),</span><span class="pln">
+          form </span><span class="pun">=</span><span class="pln"> e</span><span class="pun">.</span><span class="pln">target</span><span class="pun">;</span><span class="pln">
+
+      </span><span class="kwd">if</span><span class="pun">(!</span><span class="pln">name</span><span class="pun">.</span><span class="pln">value</span><span class="pun">.</span><span class="pln">length </span><span class="pun">||</span><span class="pln"> </span><span class="pun">!</span><span class="pln">email</span><span class="pun">.</span><span class="pln">value</span><span class="pun">.</span><span class="pln">length</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> alert</span><span class="pun">(</span><span class="str">"Enter a name and a valid email id."</span><span class="pun">);</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+
+      </span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">insert</span><span class="pun">({</span><span class="pln">
+        name</span><span class="pun">:</span><span class="pln"> name</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        email</span><span class="pun">:</span><span class="pln"> email</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        phone</span><span class="pun">:</span><span class="pln"> phone</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        twitter</span><span class="pun">:</span><span class="pln"> twitter</span><span class="pun">.</span><span class="pln">value
+      </span><span class="pun">});</span><span class="pln">
+
+      form</span><span class="pun">.</span><span class="pln">reset</span><span class="pun">();</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+  </span><span class="pun">});</span></code></pre>
+
+<h3 class="wmd-title" id="deleting-contacts">Deleting Contacts</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small edit"</span><span class="tag">&gt;</span><span class="pln">Edit</span><span class="tag">&lt;/button&gt;</span><span class="pln">
+</span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small btn-danger delete"</span><span class="tag">&gt;</span><span class="pln">Delete</span><span class="tag">&lt;/button&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Template</span><span class="pun">.</span><span class="pln">contact_item</span><span class="pun">.</span><span class="pln">events</span><span class="pun">({</span><span class="pln">
+    </span><span class="str">"click .delete"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">e</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pun">(</span><span class="pln">confirm</span><span class="pun">(</span><span class="str">"Are you sure?"</span><span class="pun">)){</span><span class="pln">
+            </span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">remove</span><span class="pun">(</span><span class="pln">t</span><span class="pun">.</span><span class="pln">data</span><span class="pun">.</span><span class="pln">_id</span><span class="pun">);</span><span class="pln">
+        </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+
+<h3 class="wmd-title" id="editing-contacts">Editing Contacts</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"contact_item"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;li&gt;</span><span class="pln">
+      {{#if isEditing }}
+        </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"name"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"{{ name }}"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"email"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"{{ email }}"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"phone"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"{{ phone }}"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"twitter"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"{{ twitter }}"</span><span class="tag">&gt;</span><span class="pln">
+
+        </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small btn-primary update"</span><span class="tag">&gt;</span><span class="pln">Update</span><span class="tag">&lt;/button&gt;</span><span class="pln">
+        </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small btn-inverse cancel"</span><span class="tag">&gt;</span><span class="pln">Cancel</span><span class="tag">&lt;/button&gt;</span><span class="pln">
+
+
+      {{ else }}
+        </span><span class="tag">&lt;h3&gt;</span><span class="pln">{{name}}</span><span class="tag">&lt;/h3&gt;</span><span class="pln">
+        </span><span class="tag">&lt;ul</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"unstyled"</span><span class="tag">&gt;</span><span class="pln">
+          </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Email: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ email }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+          </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Phone: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ phone }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+          </span><span class="tag">&lt;li&gt;&lt;strong&gt;</span><span class="pln">Twitter: </span><span class="tag">&lt;/strong&gt;</span><span class="pln">{{ twitter }}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/ul&gt;</span><span class="pln">
+
+        </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small edit"</span><span class="tag">&gt;</span><span class="pln">Edit</span><span class="tag">&lt;/button&gt;</span><span class="pln">
+      {{/if}}
+
+        </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-small btn-danger delete"</span><span class="tag">&gt;</span><span class="pln">Delete</span><span class="tag">&lt;/button&gt;</span><span class="pln">
+
+    </span><span class="tag">&lt;/li&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln"> </span><span class="typ">Template</span><span class="pun">.</span><span class="pln">contact_item</span><span class="pun">.</span><span class="pln">isEditing </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Session</span><span class="pun">.</span><span class="pln">equals</span><span class="pun">(</span><span class="str">"currentlyEditing"</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">_id</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="str">"click .edit"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">e</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="typ">Session</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">(</span><span class="str">"currentlyEditing"</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">data</span><span class="pun">.</span><span class="pln">_id</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">},</span><span class="pln">
+
+    </span><span class="str">"click .update"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">e</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="kwd">var</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".name"</span><span class="pun">),</span><span class="pln">
+          email </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".email"</span><span class="pun">),</span><span class="pln">
+          phone </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".phone"</span><span class="pun">),</span><span class="pln">
+          twitter </span><span class="pun">=</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">find</span><span class="pun">(</span><span class="str">".twitter"</span><span class="pun">);</span><span class="pln">
+
+      </span><span class="kwd">if</span><span class="pun">(!</span><span class="pln">name</span><span class="pun">.</span><span class="pln">value</span><span class="pun">.</span><span class="pln">length </span><span class="pun">||</span><span class="pln"> </span><span class="pun">!</span><span class="pln">email</span><span class="pun">.</span><span class="pln">value</span><span class="pun">.</span><span class="pln">length</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> alert</span><span class="pun">(</span><span class="str">"Enter a name and a valid email id."</span><span class="pun">);</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+
+      </span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">update</span><span class="pun">({</span><span class="pln">_id</span><span class="pun">:</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">data</span><span class="pun">.</span><span class="pln">_id </span><span class="pun">},{</span><span class="pln"> $set</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        name</span><span class="pun">:</span><span class="pln"> name</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        email</span><span class="pun">:</span><span class="pln"> email</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        phone</span><span class="pun">:</span><span class="pln"> phone</span><span class="pun">.</span><span class="pln">value</span><span class="pun">,</span><span class="pln">
+        twitter</span><span class="pun">:</span><span class="pln"> twitter</span><span class="pun">.</span><span class="pln">value
+      </span><span class="pun">}});</span><span class="pln">
+
+      </span><span class="typ">Session</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">(</span><span class="str">"currentlyEditing"</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">},</span><span class="pln">
+
+    </span><span class="str">"click .cancel"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">e</span><span class="pun">,</span><span class="pln"> t</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="typ">Session</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">(</span><span class="str">"currentlyEditing"</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">}</span></code></pre>
+
+<h3 class="wmd-title" id="pub/sub">Pub/Sub</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Meteor</span><span class="pun">.</span><span class="pln">autosubscribe</span><span class="pun">(</span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="typ">Meteor</span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="str">"contacts"</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Meteor</span><span class="pun">.</span><span class="pln">userId</span><span class="pun">());</span><span class="pln">
+</span><span class="pun">})</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Meteor</span><span class="pun">.</span><span class="pln">publish</span><span class="pun">(</span><span class="str">"contacts"</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">find</span><span class="pun">({</span><span class="pln"> userId</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">userId </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">})</span></code></pre>
+
+<h3 class="wmd-title" id="allow/deny">Allow/Deny</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Contacts</span><span class="pun">.</span><span class="pln">allow</span><span class="pun">({</span><span class="pln">
+    insert</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">userId</span><span class="pun">,</span><span class="pln"> doc</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">!!</span><span class="pln">userId
+    </span><span class="pun">},</span><span class="pln">
+
+    update</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">userId</span><span class="pun">,</span><span class="pln"> doc</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pun">(</span><span class="pln">userId </span><span class="pun">&amp;&amp;</span><span class="pln"> doc</span><span class="pun">.</span><span class="pln">userId </span><span class="pun">==</span><span class="pln"> userId</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">;</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+    </span><span class="pun">},</span><span class="pln">
+
+    remove</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">userId</span><span class="pun">,</span><span class="pln"> doc</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pun">(</span><span class="pln">userId </span><span class="pun">&amp;&amp;</span><span class="pln"> doc</span><span class="pun">.</span><span class="pln">userId </span><span class="pun">==</span><span class="pln"> userId</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">;</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">})</span></code></pre>
+
+<h3 class="wmd-title" id="app-view-(main.html)-(after-cleanup)">App View (main.html) (after cleanup)</h3>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;head&gt;</span><span class="pln">
+    </span><span class="tag">&lt;title&gt;</span><span class="pln">Contacts App</span><span class="tag">&lt;/title&gt;</span><span class="pln">
+</span><span class="tag">&lt;/head&gt;</span><span class="pln">
+
+</span><span class="tag">&lt;body&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"container"</span><span class="tag">&gt;</span><span class="pln">
+        {{&gt; header }}
+
+        </span><span class="tag">&lt;hr&gt;</span><span class="pln">
+
+        </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"row-fluid"</span><span class="tag">&gt;</span><span class="pln">
+            {{&gt; app_view }}
+        </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">  
+</span><span class="tag">&lt;/body&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"app_view"</span><span class="tag">&gt;</span><span class="pln">
+    {{#if currentUser }}
+        {{&gt; add_contact}}           
+        {{&gt; contact_list }}
+    {{else}}
+        {{&gt; access_denied }}
+    {{/if}}
+
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;template</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"access_denied"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"row-fluid"</span><span class="tag">&gt;</span><span class="pln">
+        </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"span12"</span><span class="tag">&gt;</span><span class="pln">
+
+        </span><span class="tag">&lt;h2</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"text-center access_denied"</span><span class="tag">&gt;</span><span class="pln">
+                Welcome to our contacts application! </span><span class="tag">&lt;br&gt;</span><span class="pln">
+                </span><span class="tag">&lt;small&gt;</span><span class="pln">
+                    Login or signup to proceed.
+                </span><span class="tag">&lt;/small&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/h2&gt;</span><span class="pln">
+
+        </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+</span><span class="tag">&lt;/template&gt;</span></code></pre>
